@@ -15,7 +15,7 @@ body {
     align-items: center;
     background: linear-gradient(329deg, #eb92be, #ffef78, #63c9b4);
     display: flex;
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Dosis', Arial, sans-serif;
     font-display: swap;
     height: inherit;
     justify-content: center;
@@ -100,6 +100,7 @@ body {
 
 .calc-button:active {
     background-color: #ffef78;
+    transform: scale(0.95);
 }
 
 .double {
@@ -133,6 +134,7 @@ body {
 
 #dark-mode-toggle:active {
     background-color: #ffef78;
+    transform: scale(0.95);
 }
 
 /* Dark mode styles */
@@ -173,6 +175,12 @@ body.dark-mode .calc-button:hover {
 body.dark-mode .calc-button:active {
     background-color: #ffef78;
 }
+
+body, .wrapper, .screen, .calc-button, #dark-mode-toggle {
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+
 
 @media (max-width: 600px) {
     .screen {
