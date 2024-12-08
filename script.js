@@ -45,7 +45,7 @@ function handleSymbol(symbol) {
 }
 
 function handleMath(symbol) {
-    if (buffer === "0") {
+    if (buffer === "0" && runningTotal === 0) {
         return;
     }
 
@@ -58,7 +58,7 @@ function handleMath(symbol) {
     }
 
     previousOperator = symbol;
-    buffer = "0";
+    buffer = `${runningTotal}`;
 }
 
 function flushOperation(floatBuffer) {
@@ -83,7 +83,7 @@ function handleNumber(numberString) {
         return;
     }
 
-    if (buffer === "0" && numberString !== ".") {
+    if (buffer === "0" || (previousOperator && buffer === `${runningTotal}`)) {
         buffer = numberString;
     } else {
         buffer += numberString;
