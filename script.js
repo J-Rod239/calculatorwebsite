@@ -5,7 +5,7 @@ let previousOperator = null;
 const screen = document.querySelector('.screen');
 
 function buttonClick(value) {
-    if (isNaN(value)) {
+    if (isNaN(value) && value !== ".") {
         handleSymbol(value);
     } else {
         handleNumber(value);
@@ -23,13 +23,13 @@ function handleSymbol(symbol) {
             if (previousOperator === null) {
                 return;
             }
-            flushOperation(parseInt(buffer));
+            flushOperation(parseFloat(buffer));
             previousOperator = null;
             buffer = `${runningTotal}`;
             runningTotal = 0;
             break;
         case '←':
-            if (buffer.length === 1) {
+            if (buffer.length === 1 || (buffer.length === 2 && buffer.includes("-"))) {
                 buffer = "0";
             } else {
                 buffer = buffer.substring(0, buffer.length - 1);
@@ -49,37 +49,41 @@ function handleMath(symbol) {
         return;
     }
 
-    const intBuffer = parseInt(buffer);
+    const floatBuffer = parseFloat(buffer);
 
     if (runningTotal === 0) {
-        runningTotal = intBuffer;
+        runningTotal = floatBuffer;
     } else {
-        flushOperation(intBuffer);
+        flushOperation(floatBuffer);
     }
 
     previousOperator = symbol;
     buffer = "0";
 }
 
-function flushOperation(intBuffer) {
+function flushOperation(floatBuffer) {
     switch (previousOperator) {
         case '+':
-            runningTotal += intBuffer;
+            runningTotal += floatBuffer;
             break;
         case '-':
-            runningTotal -= intBuffer;
+            runningTotal -= floatBuffer;
             break;
         case '×':
-            runningTotal *= intBuffer;
+            runningTotal *= floatBuffer;
             break;
         case '÷':
-            runningTotal /= intBuffer;
+            runningTotal /= floatBuffer;
             break;
     }
 }
 
 function handleNumber(numberString) {
-    if (buffer === "0") {
+    if (numberString === "." && buffer.includes(".")) {
+        return;
+    }
+
+    if (buffer === "0" && numberString !== ".") {
         buffer = numberString;
     } else {
         buffer += numberString;
