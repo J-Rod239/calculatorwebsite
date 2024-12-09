@@ -20,7 +20,10 @@ function handleSymbol(symbol) {
             runningTotal = 0;
             break;
         case '=':
-            if (previousOperator === null) {
+            if (previousOperator === '÷' && buffer === "0") {
+                screen.innerText = "Error";
+                triggerShake();
+                buffer = "0";
                 return;
             }
             flushOperation(parseFloat(buffer));
@@ -109,5 +112,12 @@ darkModeToggle.addEventListener('click', () => {
         ? 'Light Mode' 
         : 'Dark Mode';
 });
+
+function triggerShake() {
+    screen.classList.add('shake');
+    setTimeout(() => {
+        screen.classList.remove('shake');
+    }, 300);
+}
 
 init();
